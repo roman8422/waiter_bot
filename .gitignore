@@ -1,4 +1,7 @@
 __pycache__/
 *.log
 *.swp
+prod_creds.py
+*.pyc
+*.db
 

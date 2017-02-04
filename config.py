@@ -38,10 +38,8 @@ BOT_LOG_FILE = r'/local/errbot-root/errbot.log'
 BOT_LOG_LEVEL = logging.DEBUG
 
 BOT_ADMINS = (
-        '@Roman',
-)  # !! Don't leave that to "CHANGE ME" if you connect your errbot to a chat system !!
-
-)  # !! Don't leave that to "CHANGE ME" if you connect your errbot to a chat system !!
+        '1_1@chat.btf.hipchat.com',
+)
 
 XMPP_CA_CERT_FILE = None
 CHATROOM_PRESENCE = ('SPb lunch',

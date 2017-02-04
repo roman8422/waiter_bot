@@ -4,4 +4,4 @@ __pycache__/
 prod_creds.py
 *.pyc
 *.db
-
+.idea

@@ -48,5 +48,5 @@ CHATROOM_PRESENCE = ('SPb lunch',
 )
 CHATROOM_FN = 'LunchBot'
 
-BOT_EXTRA_PLUGIN_DIR = '/local/errbot-plugins/'
+# BOT_EXTRA_PLUGIN_DIR = '/local/errbot-plugins/'
 BOT_ALT_PREFIXES = ('Err', '@LunchBot',)

@@ -3,9 +3,6 @@ from pathlib import Path
 
 from prod_creds import BOT_IDENTITY
 
-if Path('dev_creds.py').is_file():
-    from dev_creds import BOT_IDENTITY
-
 ## BOT_IDENTITY should be imported from separate file that's not checked out to git
 ## Example:
 #BOT_IDENTITY = {
@@ -37,9 +34,7 @@ BOT_EXTRA_PLUGIN_DIR = '/local/errbot-root/plugins'
 BOT_LOG_FILE = r'/local/errbot-root/errbot.log'
 BOT_LOG_LEVEL = logging.DEBUG
 
-BOT_ADMINS = (
-        '1_1@chat.btf.hipchat.com',
-)
+BOT_ADMINS = ()
 
 XMPP_CA_CERT_FILE = None
 CHATROOM_PRESENCE = ('SPb lunch',
@@ -48,3 +43,7 @@ CHATROOM_FN = 'LunchBot'
 
 # BOT_EXTRA_PLUGIN_DIR = '/local/errbot-plugins/'
 BOT_ALT_PREFIXES = ('Err', '@LunchBot',)
+
+# Overwrite settings in dev environment
+if Path('dev_env_settings.py').is_file():
+    from dev_env_settings import *

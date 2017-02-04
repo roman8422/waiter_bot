@@ -1,0 +1,9 @@
+[Core]
+Name = Waiter
+Module = waiter
+
+[Python]
+Version = 2+
+
+[Documentation]
+Description = Errbot waiter plugin

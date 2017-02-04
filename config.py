@@ -45,6 +45,5 @@ BOT_ADMINS = (
 
 XMPP_CA_CERT_FILE = None
 CHATROOM_PRESENCE = ('SPb lunch',
-                     '1_spb_lunch',
 )
 CHATROOM_FN = 'LunchBot'

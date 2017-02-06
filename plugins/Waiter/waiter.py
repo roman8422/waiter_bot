@@ -56,6 +56,37 @@ class Waiter(BotPlugin):
 
         return _return_message
 
+    @botcmd()
+    def order_list(self, msg, args):
+        d = self['orders']
+        _error_msg = "/me says:\n!order list accepts one argument, {} given\n!order list <rest_name>"
+
+        if not args:
+            return _error_msg.format(0)
+
+        _args_num = len(args.split())
+        if _args_num != 1:
+            return _error_msg.format(_args_num)
+
+        _restaurant = self._find_rest(args)
+        # return _restaurant
+
+        if _restaurant[0] == '/':
+            return _restaurant
+
+        _ident = "  "
+        _return_message = ''
+        _num = 0
+        for key, val in d[_restaurant].items():
+            _num += 1
+            _return_message += 'Гость ' + str(_num) + ' (' + key + ')\n'
+            if '\n' in val:
+                for line in val.splitlines():
+                    _return_message += _ident + line.strip() + '\n'
+            else:
+                _return_message += _ident + val + '\n'
+
+        return _return_message
 
     @botcmd()
     def rest_add(self, msg, args):
@@ -100,4 +131,3 @@ class Waiter(BotPlugin):
         _retern_message = '/me says:\nRestaurants list:\n{}'.format(_keys)
 
         return _retern_message
-

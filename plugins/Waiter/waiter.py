@@ -22,7 +22,13 @@ class Waiter(BotPlugin):
             return(self._rest_empty_error())
 
         _restaurant = args.split(' ')[0].strip(' :')
+        _not_in_list = True
+        for rest in self._make_rest_list():
+            if _restaurant.lower() == rest.lower():
+                _not_in_list = False
 
+        if _not_in_list:
+            return "/me says:\nDon't know this restaurant. Check spelling or add it with\n!rest add <rest_name>\nCheck restaurants list with:\n!rest list"
 
         _order_content = args.replace(_restaurant, '')
         _retern_message = ""

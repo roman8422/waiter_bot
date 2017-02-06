@@ -8,10 +8,13 @@ class Waiter(BotPlugin):
         """Say hello to the world"""
         return "Hello, waiter!"
 
-    # @botcmd(split_args_with=None)
+    def rest_empty_error(self):
+        return "/me says:\nYou should add some restaurants first. Use following command:\n!rest add <rest_name>\nCheck restaurants list with:\n!rest list"
+
     @botcmd()
     def order_add(self, msg, args):
         """Make your order. Format: !orderadd restorant[:] 'place order text here'"""
+
         _restaurant = args.split(' ')[0].strip(' :')
         _order_content = args.replace(_restaurant, '')
         _retern_message = ""

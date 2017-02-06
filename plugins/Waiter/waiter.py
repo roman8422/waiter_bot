@@ -61,13 +61,16 @@ class Waiter(BotPlugin):
 
     @botcmd()
     def rest_list(self, msg, args):
+
         if 'orders' not in self.keys():
             return(self._rest_empty_error())
-        else:
-            _restaurants = self._make_rest_list()
-            _keys = ""
-            for key in _restaurants:
-                _keys += key + '\n'
 
-            return _keys
+        _restaurants = self._make_rest_list()
+        _keys = ""
+        for key in _restaurants:
+            _keys += key + '\n'
+
+        _retern_message = '/me says:\nRestaurants list:\n{}'.format(_keys)
+
+        return _retern_message
 

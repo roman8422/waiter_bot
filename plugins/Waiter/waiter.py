@@ -12,6 +12,17 @@ class Waiter(BotPlugin):
         _restaurants.sort()
         return _restaurants
 
+    def _find_rest(self, input):
+        input = input.strip(' :')
+        _not_in_list = True
+        for rest in self._make_rest_list():
+            if input.lower() == rest.lower():
+                return(rest)
+
+        if _not_in_list:
+            return "/me says:\nDon't know this restaurant. Check spelling or add it with\n!rest add <rest_name>\nCheck restaurants list with:\n!rest list"
+
+
     @botcmd()
     def order_add(self, msg, args):
         """Make your order. Format: !orderadd restorant[:] 'place order text here'"""
@@ -21,17 +32,10 @@ class Waiter(BotPlugin):
         else:
             return(self._rest_empty_error())
 
-        _restaurant = args.split(' ')[0].strip(' :')
-        _not_in_list = True
-        for rest in self._make_rest_list():
-            if _restaurant.lower() == rest.lower():
-                _not_in_list = False
-                _restaurant = rest
+        _restaurant_input = args.split(' ')[0]
+        _restaurant = self._find_rest(_restaurant_input)
 
-        if _not_in_list:
-            return "/me says:\nDon't know this restaurant. Check spelling or add it with\n!rest add <rest_name>\nCheck restaurants list with:\n!rest list"
-
-        _order_content = args.replace(_restaurant, '')
+        _order_content = args.replace(_restaurant_input, '').strip()
 
         d[_restaurant][msg.frm.nick] = _order_content
         self['orders'] = d

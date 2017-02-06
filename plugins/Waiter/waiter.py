@@ -26,11 +26,16 @@ class Waiter(BotPlugin):
         for rest in self._make_rest_list():
             if _restaurant.lower() == rest.lower():
                 _not_in_list = False
+                _restaurant = rest
 
         if _not_in_list:
             return "/me says:\nDon't know this restaurant. Check spelling or add it with\n!rest add <rest_name>\nCheck restaurants list with:\n!rest list"
 
         _order_content = args.replace(_restaurant, '')
+
+        d[_restaurant][msg.frm.nick] = _order_content
+        self['orders'] = d
+
         _retern_message = ""
         _retern_message += "/me accepted following order:\n"
         _retern_message += "From: {}\n".format(msg.frm.nick)

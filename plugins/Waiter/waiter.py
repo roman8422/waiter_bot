@@ -24,3 +24,22 @@ class Waiter(BotPlugin):
         _retern_message += "Order content: {}\n".format(_order_content)
 
         return _retern_message
+
+    @botcmd()
+    def rest_add(self, msg, args):
+        d = self['orders']
+
+        _args_num = len(args.split())
+        if _args_num > 1:
+            return "!rest add accepts only one argument, {} given\n !rest add <rest_name>".format(_args_num)
+
+        _rest_in_d = False
+        for rest in d.keys():
+            if args.lower() == rest.lower():
+                return '/me says:\nrestaurant {} is in list already'.format(args)
+
+        if not _rest_in_d:
+            d[args] = {}
+            self['orders'] = d
+            return '/me says:\nrestaurant {} has been added'.format(args)
+

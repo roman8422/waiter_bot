@@ -69,8 +69,6 @@ class Waiter(BotPlugin):
             return _error_msg.format(_args_num)
 
         _restaurant = self._find_rest(args)
-        # return _restaurant
-
         if _restaurant[0] == '/':
             return _restaurant
 

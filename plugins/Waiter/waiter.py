@@ -32,21 +32,29 @@ class Waiter(BotPlugin):
         else:
             return(self._rest_empty_error())
 
-        _restaurant_input = args.split(' ')[0]
+        _input = args.splitlines()
+        _restaurant_input = _input[0].split(' ')[0]
         _restaurant = self._find_rest(_restaurant_input)
 
-        _order_content = args.replace(_restaurant_input, '').strip()
+        # remove spaces in lines
+        _stripped_input = []
+        for line in _input:
+            _stripped_input.append(line.strip())
+
+        _order_content = '\n'.join(_stripped_input)
+        # remove restaurant from input
+        _order_content = _order_content.replace(_restaurant_input, '').strip()
 
         d[_restaurant][msg.frm.nick] = _order_content
         self['orders'] = d
 
-        _retern_message = ""
-        _retern_message += "/me accepted following order:\n"
-        _retern_message += "From: {}\n".format(msg.frm.nick)
-        _retern_message += "Restaurant: {}\n".format(_restaurant)
-        _retern_message += "Order content: {}\n".format(_order_content)
+        _return_message = ""
+        _return_message += "/me accepted following order:\n"
+        _return_message += "From: {}\n".format(msg.frm.nick)
+        _return_message += "Restaurant: {}\n".format(_restaurant)
+        _return_message += "Order content: {}\n".format(_order_content)
 
-        return _retern_message
+        return _return_message
 
 
     @botcmd()

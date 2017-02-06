@@ -18,6 +18,8 @@ class Waiter(BotPlugin):
         for rest in self._make_rest_list():
             if input.lower() == rest.lower():
                 return(rest)
+            if input.lower() == 'all':
+                return 'all'
 
         if _not_in_list:
             return "/me says:\nDon't know this restaurant. Check spelling or add it with\n!rest add <rest_name>\nCheck restaurants list with:\n!rest list"
@@ -72,19 +74,34 @@ class Waiter(BotPlugin):
         if _restaurant[0] == '/':
             return _restaurant
 
+        if _restaurant == 'all':
+            _restaurants = list(d.keys())
+        else:
+            _restaurants = []
+            _restaurants.append(_restaurant)
+
         _ident = "  "
         _return_message = ''
-        _num = 0
-        for key, val in d[_restaurant].items():
-            _num += 1
-            _return_message += 'Гость ' + str(_num) + ' (' + key + ')\n'
-            if '\n' in val:
-                for line in val.splitlines():
-                    _return_message += _ident + line.strip() + '\n'
-            else:
-                _return_message += _ident + val + '\n'
+        for _restaurant in _restaurants:
+            _return_message += "---\n"
+            _return_message += _restaurant + ":\n"
+            _num = 0
+            for key, val in d[_restaurant].items():
+                _num += 1
+                _return_message += 'Гость ' + str(_num) + ' (' + key + ')\n'
+                if '\n' in val:
+                    for line in val.splitlines():
+                        _return_message += _ident + line.strip() + '\n'
+                else:
+                    _return_message += _ident + val + '\n'
 
         return _return_message
+
+    @botcmd()
+    def order_list_all(self):
+        d = self['orders']
+        for key in d.keys():
+            return key
 
     @botcmd()
     def rest_add(self, msg, args):

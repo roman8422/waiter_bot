@@ -63,6 +63,16 @@ class Waiter(BotPlugin):
             self['orders'] = d
             return '/me says:\nrestaurant {} has been added'.format(args)
 
+    @botcmd()
+    def rest_remove(self, msg, args):
+        """Remove restaurand from list. Format: !rest remove <restaurant>"""
+        d = self['orders']
+        try:
+            d.pop(args)
+            self['orders'] = d
+            return "/me says:\nrestaurant {} has been removed from list".format(args)
+        except KeyError:
+            return "/me says:\n restaurant {} is not in the list".format(args)
 
     @botcmd()
     def rest_list(self, msg, args):

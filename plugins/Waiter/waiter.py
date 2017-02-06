@@ -3,19 +3,27 @@ from errbot import BotPlugin, botcmd
 class Waiter(BotPlugin):
     """Bot to take dinner orders"""
 
-    @botcmd
-    def hello(self, msg, args):
-        """Say hello to the world"""
-        return "Hello, waiter!"
-
-    def rest_empty_error(self):
+    def _rest_empty_error(self):
         return "/me says:\nYou should add some restaurants first. Use following command:\n!rest add <rest_name>\nCheck restaurants list with:\n!rest list"
+
+    def _make_rest_list(self):
+        d = self['orders']
+        _restaurants = list(d.keys())
+        _restaurants.sort()
+        return _restaurants
 
     @botcmd()
     def order_add(self, msg, args):
         """Make your order. Format: !orderadd restorant[:] 'place order text here'"""
 
+        if 'orders' in self.keys():
+            d = self['orders']
+        else:
+            return(self._rest_empty_error())
+
         _restaurant = args.split(' ')[0].strip(' :')
+
+
         _order_content = args.replace(_restaurant, '')
         _retern_message = ""
         _retern_message += "/me accepted following order:\n"
@@ -24,6 +32,7 @@ class Waiter(BotPlugin):
         _retern_message += "Order content: {}\n".format(_order_content)
 
         return _retern_message
+
 
     @botcmd()
     def rest_add(self, msg, args):
@@ -47,11 +56,9 @@ class Waiter(BotPlugin):
     @botcmd()
     def rest_list(self, msg, args):
         if 'orders' not in self.keys():
-            return(self.rest_empty_error())
+            return(self._rest_empty_error())
         else:
-            d = self['orders']
-            _restaurants = list(d.keys())
-            _restaurants.sort()
+            _restaurants = self._make_rest_list()
             _keys = ""
             for key in _restaurants:
                 _keys += key + '\n'

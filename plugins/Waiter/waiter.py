@@ -43,3 +43,18 @@ class Waiter(BotPlugin):
             self['orders'] = d
             return '/me says:\nrestaurant {} has been added'.format(args)
 
+
+    @botcmd()
+    def rest_list(self, msg, args):
+        if 'orders' not in self.keys():
+            return(self.rest_empty_error())
+        else:
+            d = self['orders']
+            _restaurants = list(d.keys())
+            _restaurants.sort()
+            _keys = ""
+            for key in _restaurants:
+                _keys += key + '\n'
+
+            return _keys
+

@@ -62,9 +62,9 @@ class Waiter(BotPlugin):
         return _return_message
 
     @botcmd()
-    def order_list(self, msg, args):
+    def orders_list(self, msg, args):
         d = self['orders']
-        _error_msg = "/me says:\n!order list accepts one argument, {} given\n!order list <rest_name>"
+        _error_msg = "/me says:\n!orders list accepts one argument, {} given\n!orders list <rest_name>"
 
         if not args:
             return _error_msg.format(0)

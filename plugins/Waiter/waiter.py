@@ -4,7 +4,6 @@ from random import randrange
 from time import sleep
 
 class Waiter(BotPlugin):
-    """Bot to take dinner orders"""
 
     def _rest_empty_error(self):
         return "/me says:\nYou should add some restaurants first. Use following command:\n!rest add <rest_name>\nCheck restaurants list with:\n!rest list"
@@ -30,7 +29,7 @@ class Waiter(BotPlugin):
 
     @botcmd()
     def order_add(self, msg, args):
-        """Make your order. Format: !orderadd restorant[:] 'place order text here'"""
+        """Adds new order. Format: !order add restorant[:] 'place order text here'"""
 
         if 'orders' in self.keys():
             d = self['orders']
@@ -66,8 +65,9 @@ class Waiter(BotPlugin):
 
     @botcmd()
     def orders_list(self, msg, args):
+        """Shows list of orders. Format: !orders list <rest_name | all>"""
         d = self['orders']
-        _error_msg = "/me says:\n!orders list accepts one argument, {} given\n!orders list <rest_name>"
+        _error_msg = "/me says:\n!orders list accepts one argument, {} given\n!orders list <rest_name | all>"
 
         if not args:
             return _error_msg.format(0)
@@ -106,8 +106,9 @@ class Waiter(BotPlugin):
 
     @botcmd()
     def orders_remove(self, msg, args):
+        """Clears list of orders. Format: !orders remove <restname | all>"""
         d = self['orders']
-        _error_msg = "/me says:\n!orders remove accepts one argument, {} given\n!orders remove <rest_name>"
+        _error_msg = "/me says:\n!orders remove accepts one argument, {} given\n!orders remove <rest_name | all>"
 
         if not args:
             return _error_msg.format(0)
@@ -138,6 +139,7 @@ class Waiter(BotPlugin):
 
     @botcmd()
     def rest_add(self, msg, args):
+        """Adds new restaurant. Format: !rest add <rest_name>"""
         d = self['orders']
 
         _args_num = len(args.split())
@@ -156,7 +158,7 @@ class Waiter(BotPlugin):
 
     @botcmd()
     def rest_remove(self, msg, args):
-        """Remove restaurand from list. Format: !rest remove <restaurant>"""
+        """Removes restaurant from list. Format: !rest remove <rest_name>"""
         d = self['orders']
         try:
             d.pop(args)
@@ -167,6 +169,7 @@ class Waiter(BotPlugin):
 
     @botcmd()
     def rest_list(self, msg, args):
+        """Shows available restaurant. Format: !rest list"""
 
         if 'orders' not in self.keys():
             return(self._rest_empty_error())
@@ -182,6 +185,7 @@ class Waiter(BotPlugin):
 
     @botcmd()
     def select_contact(self, msg, args):
+        """Selects a person from order owners. Format: !select contact <rest_name | all>"""
         d = self['orders']
         fname = sys._getframe().f_code.co_name.replace('_', ' ')
         _error_msg = "/me says:\n!{func} accepts one argument, {nargs} given\n!{func} <rest_name>"

@@ -38,6 +38,9 @@ class Waiter(BotPlugin):
         _restaurant_input = _input[0].split(' ')[0]
         _restaurant = self._find_rest(_restaurant_input)
 
+        if _restaurant[0] == '/':
+            return _restaurant
+
         # remove spaces in lines
         _stripped_input = []
         for line in _input:

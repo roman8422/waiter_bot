@@ -38,12 +38,11 @@ BOT_ADMINS = ()
 
 XMPP_CA_CERT_FILE = None
 CHATROOM_PRESENCE = (
-    'SPb lunch',
+    'SPB Lunch',
     )
-CHATROOM_FN = 'LunchBot'
+CHATROOM_FN = 'spb lunchbot'
 
-# BOT_EXTRA_PLUGIN_DIR = '/local/errbot-plugins/'
-BOT_ALT_PREFIXES = ('Err', '@LunchBot',)
+BOT_ALT_PREFIXES = ('Err', '@spblunchbot',)
 
 # Overwrite settings in dev environment
 if Path('dev_env_settings.py').is_file():

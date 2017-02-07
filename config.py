@@ -37,8 +37,9 @@ BOT_LOG_LEVEL = logging.DEBUG
 BOT_ADMINS = ()
 
 XMPP_CA_CERT_FILE = None
-CHATROOM_PRESENCE = ('SPb lunch',
-)
+CHATROOM_PRESENCE = (
+    'SPb lunch',
+    )
 CHATROOM_FN = 'LunchBot'
 
 # BOT_EXTRA_PLUGIN_DIR = '/local/errbot-plugins/'

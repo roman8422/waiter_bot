@@ -28,10 +28,11 @@ from prod_creds import BOT_IDENTITY
 #BACKEND = 'Text'  # Errbot will start in text mode (console only mode) and will answer commands from there.
 BACKEND = 'Hipchat'
 
-BOT_DATA_DIR = r'/local/errbot-root/data'
-BOT_EXTRA_PLUGIN_DIR = '/local/errbot-root/plugins'
+BOT_ROOT = '/local/errbot/errbot_root/'
+BOT_DATA_DIR = BOT_ROOT + 'data'
+BOT_EXTRA_PLUGIN_DIR = BOT_ROOT + 'plugins'
 
-BOT_LOG_FILE = r'/local/errbot-root/errbot.log'
+BOT_LOG_FILE = BOT_ROOT + 'errbot.log'
 BOT_LOG_LEVEL = logging.DEBUG
 
 BOT_ADMINS = ()

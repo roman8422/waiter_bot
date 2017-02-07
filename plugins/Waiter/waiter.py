@@ -140,6 +140,12 @@ class Waiter(BotPlugin):
     @botcmd()
     def rest_add(self, msg, args):
         """Adds new restaurant. Format: !rest add <rest_name>"""
+
+        try:
+            d = self['orders']
+        except KeyError:
+            self['orders'] = {}
+
         d = self['orders']
 
         _args_num = len(args.split())

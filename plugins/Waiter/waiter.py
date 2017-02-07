@@ -100,11 +100,38 @@ class Waiter(BotPlugin):
 
         return _return_message
 
+
     @botcmd()
-    def order_list_all(self):
+    def orders_remove(self, msg, args):
         d = self['orders']
-        for key in d.keys():
-            return key
+        _error_msg = "/me says:\n!orders remove accepts one argument, {} given\n!orders remove <rest_name>"
+
+        if not args:
+            return _error_msg.format(0)
+
+        _args_num = len(args.split())
+        if _args_num != 1:
+            return _error_msg.format(_args_num)
+
+        _restaurant = self._find_rest(args)
+        if _restaurant[0] == '/':
+            return _restaurant
+
+        if _restaurant == 'all':
+            _restaurants = list(d.keys())
+        else:
+            _restaurants = []
+            _restaurants.append(_restaurant)
+
+        _return_message = ''
+        for _restaurant in _restaurants:
+            _return_message += "/me says:\n"
+            d[_restaurant] = {}
+            _return_message += "orders for {} has been removed".format(_restaurant)
+
+        self['orders'] = d
+
+        return _return_message
 
     @botcmd()
     def rest_add(self, msg, args):

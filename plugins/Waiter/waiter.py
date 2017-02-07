@@ -1,4 +1,7 @@
 from errbot import BotPlugin, botcmd
+import sys
+from random import randrange
+from time import sleep
 
 class Waiter(BotPlugin):
     """Bot to take dinner orders"""
@@ -176,3 +179,38 @@ class Waiter(BotPlugin):
         _retern_message = '/me says:\nRestaurants list:\n{}'.format(_keys)
 
         return _retern_message
+
+    @botcmd()
+    def select_contact(self, msg, args):
+        d = self['orders']
+        fname = sys._getframe().f_code.co_name.replace('_', ' ')
+        _error_msg = "/me says:\n!{func} accepts one argument, {nargs} given\n!{func} <rest_name>"
+
+        if not args:
+            return _error_msg.format(func=fname, nargs=0)
+
+        _args_num = len(args.split())
+        if _args_num != 1:
+            return _error_msg.format(func=fname, nargs=_args_num)
+
+        _restaurant = self._find_rest(args)
+        if _restaurant[0] == '/':
+            return _restaurant
+
+        if _restaurant == 'all':
+            _restaurants = list(d.keys())
+        else:
+            _restaurants = []
+            _restaurants.append(_restaurant)
+
+        _return_message = ''
+        for _restaurant in _restaurants:
+            l = list(d[_restaurant].keys())
+            if len(l) > 0:
+                _contact = l[randrange(len(l))]
+
+                yield "/me is selecting today's contact person for {rest}...".format(rest=_restaurant)
+                sleep(2)
+                yield '/me says: and the winner is ' + _contact + '. Congratz!'
+            else:
+                yield '/me says: noone made order in {rest} yet'.format(rest=_restaurant)

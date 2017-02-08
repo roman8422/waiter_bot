@@ -6,3 +6,4 @@ prod_creds.py
 *.db
 .idea
 dev_env_settings.py
+contacts.py

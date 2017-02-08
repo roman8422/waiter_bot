@@ -3,6 +3,7 @@ import sys
 from random import randrange
 from time import sleep
 
+
 class Waiter(BotPlugin):
 
     def _rest_empty_error(self):
@@ -224,3 +225,26 @@ class Waiter(BotPlugin):
                 yield '/me says: and the winner is ' + _contact + '. Congratz!'
             else:
                 yield '/me says: noone made order in {rest} yet'.format(rest=_restaurant)
+
+
+    @botcmd
+    def order_send(self, msg, args):
+        caller = "Roman Vrublevskiy"
+        try:
+            phone_num = Waiter.fined_phone_num(caller)
+            return phone_num
+        except Exception as e:
+            return e
+
+    @staticmethod
+    def fined_phone_num(caller):
+        try:
+            import contacts
+        except ImportError:
+            return "You should create contacts1.py file with contacts list.\n" \
+                   "Ex: contacts=[{'displayName': 'Roman Vrublevskiy', 'mobilePhone': '123456789'}]"
+
+        for contact in contacts.contacts:
+            if contact['displayName'] == caller:
+                return contact['mobilePhone']
+        raise LookupError("Phone number of {} wasn't found in contacts".format(caller))

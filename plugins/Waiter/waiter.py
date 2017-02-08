@@ -92,9 +92,9 @@ class Waiter(BotPlugin):
             _restaurants.append(_restaurant)
 
         _ident = "  "
-        _return_message = ''
+        _return_message = "/code\n"
         for _restaurant in _restaurants:
-            _return_message += "---\n"
+            _return_message += "\----------\n"
             _return_message += _restaurant + ":\n"
             _num = 0
             for key, val in d[_restaurant].items():

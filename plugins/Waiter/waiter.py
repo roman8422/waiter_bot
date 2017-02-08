@@ -65,6 +65,10 @@ class Waiter(BotPlugin):
         return _return_message
 
     @botcmd()
+    def order_list(self, msg, args):
+        return self.orders_list(msg, args)
+
+    @botcmd()
     def orders_list(self, msg, args):
         """Shows list of orders. Format: !orders list <rest_name | all>"""
         d = self['orders']

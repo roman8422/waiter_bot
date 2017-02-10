@@ -245,7 +245,7 @@ class Waiter(BotPlugin):
         try:
             import contacts
         except ImportError:
-            return "You should create contacts1.py file with contacts list.\n" \
+            return "You should create contacts.py file with contacts list.\n" \
                    "Ex: contacts=[{'displayName': 'Roman Vrublevskiy', 'mobilePhone': '123456789'}]"
 
         for contact in contacts.contacts:

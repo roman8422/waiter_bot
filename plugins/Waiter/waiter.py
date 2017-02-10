@@ -235,13 +235,13 @@ class Waiter(BotPlugin):
     def order_send(self, msg, args):
         caller = "Roman Vrublevskiy"
         try:
-            phone_num = Waiter.fined_phone_num(caller)
+            phone_num = Waiter.find_phone_num(caller)
             return phone_num
         except Exception as e:
             return e
 
     @staticmethod
-    def fined_phone_num(caller):
+    def find_phone_num(caller):
         try:
             import contacts
         except ImportError:

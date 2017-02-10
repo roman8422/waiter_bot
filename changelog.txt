@@ -1,3 +1,6 @@
+[v0.3] - dev
+- fix exception if credentials file for production is not presented
+
 [v0.2]
-- add order_list method that works exactly like orders_list to decrease
-confusing
+- add order_list method that works exactly like orders_list to decrease confusing
+- put !order list output in /code tag to improve readability

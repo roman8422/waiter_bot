@@ -1,7 +1,12 @@
 import logging
 from pathlib import Path
 
-from prod_creds import BOT_IDENTITY
+try:
+    from prod_creds import BOT_IDENTITY
+except ImportError:
+    print("Can not find prod_creds.py file with credentials for production")
+    input("Press Enter to continue...")
+
 
 ## BOT_IDENTITY should be imported from separate file that's not checked out to git
 ## Example:

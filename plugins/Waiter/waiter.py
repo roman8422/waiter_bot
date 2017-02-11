@@ -178,10 +178,10 @@ class Waiter(BotPlugin):
         """Adds new restaurant. Format: !rest add <rest_name>"""
 
         d = self._get_orders()
-
-        _args_num = len(args.split())
-        if _args_num > 1:
-            return "!rest add accepts only one argument, {} given\n !rest add <rest_name>".format(_args_num)
+        try:
+            self._check_for_bad_arguments(args, func=self.rest_add, n_args=1)
+        except SyntaxError as e:
+            return str(e)
 
         _rest_in_d = False
         for rest in d.keys():

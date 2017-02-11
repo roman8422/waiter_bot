@@ -43,6 +43,9 @@ class Waiter(BotPlugin):
         self['orders'] = d
         return(d)
 
+    def _set_orders(self, d):
+        self['orders'] = d
+
 
     @botcmd()
     def order_add(self, msg, args):

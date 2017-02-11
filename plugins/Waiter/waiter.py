@@ -40,9 +40,9 @@ class Waiter(BotPlugin):
             if input.lower() == "all":
                 return "all"
 
+        if len(input) == 0 and accepts_all:
+            return "all"
         if _not_in_list:
-            if accepts_all:
-                return "all"
             return "/me says:\n" \
                    "Don't know this restaurant. " \
                    "Check spelling or add it with\n" \
@@ -116,16 +116,23 @@ class Waiter(BotPlugin):
     @botcmd()
     def order_list(self, msg, args):
         """Shows list of orders. Format: !order list [rest_name=all]"""
-        d = self._get_orders()
+
         try:
             self._check_for_bad_arguments(args, func=self.order_list, n_args=1, accepts_all=True)
         except SyntaxError as e:
             return str(e)
 
+        try:
+            return self._generate_order_list(args)
+        except SyntaxError as e:
+            return e
+
+    def _generate_order_list(self, args, for_rest=False):
+        d = self._get_orders()
 
         _restaurant = self._get_rest_from_input(args, accepts_all=True)
         if _restaurant[0] == "/":
-            return _restaurant
+            raise SyntaxError(_restaurant)
 
         if _restaurant == "all":
             _restaurants = list(d.keys())
@@ -134,22 +141,28 @@ class Waiter(BotPlugin):
             _restaurants.append(_restaurant)
 
         _ident = "  "
-        _return_message = "/code\n"
-        for _restaurant in _restaurants:
-            _return_message += "\----------\n"
-            _return_message += _restaurant + ":\n"
+        if not for_rest:
+            _return_message = "/code\n"
+        else:
+            _return_message = ""
+        for rest in _restaurants:
+            if not for_rest:
+                _return_message += "\----------\n"
+                _return_message += rest + ":\n"
             _num = 0
-            for key, val in d[_restaurant].items():
+            for name, order in d[rest].items():
                 _num += 1
-                _return_message += "Гость " + str(_num) + " (" + key + ")\n"
-                if "\n" in val:
-                    for line in val.splitlines():
+                _return_message += "Гость " + str(_num)
+                if not for_rest:
+                    _return_message += " (" + name + ")"
+                _return_message += "\n"
+                if "\n" in order:
+                    for line in order.splitlines():
                         _return_message += _ident + line.strip() + "\n"
                 else:
-                    _return_message += _ident + val + "\n"
+                    _return_message += _ident + order + "\n"
 
         return _return_message
-
 
     @botcmd()
     def orders_remove(self, msg, args):

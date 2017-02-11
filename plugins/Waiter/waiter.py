@@ -104,15 +104,16 @@ class Waiter(BotPlugin):
         return _return_message
 
     @botcmd()
-    def order_list(self, msg, args):
-        return self.orders_list(msg, args)
+    def orders_list(self, msg, args):
+        """Alias for !order list"""
+        return self.order_list(msg, args)
 
     @botcmd()
-    def orders_list(self, msg, args):
-        """Shows list of orders. Format: !orders list <rest_name | all>"""
+    def order_list(self, msg, args):
+        """Shows list of orders. Format: !order list <rest_name | all>"""
         d = self._get_orders()
         try:
-            self._check_for_bad_arguments(args, func=self.orders_list, n_args=1)
+            self._check_for_bad_arguments(args, func=self.order_list, n_args=1)
         except SyntaxError as e:
             return str(e)
 
@@ -147,10 +148,15 @@ class Waiter(BotPlugin):
 
     @botcmd()
     def orders_remove(self, msg, args):
-        """Clears list of orders. Format: !orders remove <restname | all>"""
+        """Alias for !order remove"""
+        return self.order_remove(msg, args)
+
+    @botcmd()
+    def order_remove(self, msg, args):
+        """Clears list of orders. Format: !order remove <restname | all>"""
         d = self._get_orders()
         try:
-            self._check_for_bad_arguments(args, func=self.orders_remove, n_args=1)
+            self._check_for_bad_arguments(args, func=self.order_remove, n_args=1)
         except SyntaxError as e:
             return str(e)
 
@@ -167,7 +173,7 @@ class Waiter(BotPlugin):
         _return_message = "/me says:\n"
         for _restaurant in _restaurants:
             d[_restaurant] = {}
-            _return_message += "orders for {} has been removed\n".format(_restaurant)
+            _return_message += "orders for {} have been removed\n".format(_restaurant)
 
         self._set_orders(d)
 

@@ -28,14 +28,6 @@ class Waiter(BotPlugin):
                 docstring=func.__doc__)
             )
 
-    def _rest_empty_error(self):
-        return "/me says:\n" \
-               "You should add some restaurants first. " \
-               "Use following command:\n" \
-               "!rest add <rest_name>\n" \
-               "Check restaurants list with:\n" \
-               "!rest list"
-
     def _get_rest_from_input(self, input):
         input = input.strip(" :")
         _not_in_list = True

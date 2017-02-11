@@ -164,11 +164,10 @@ class Waiter(BotPlugin):
             _restaurants = []
             _restaurants.append(_restaurant)
 
-        _return_message = ""
+        _return_message = "/me says:\n"
         for _restaurant in _restaurants:
-            _return_message += "/me says:\n"
             d[_restaurant] = {}
-            _return_message += "orders for {} has been removed".format(_restaurant)
+            _return_message += "orders for {} has been removed\n".format(_restaurant)
 
         self._set_orders(d)
 

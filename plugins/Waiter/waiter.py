@@ -5,7 +5,7 @@ from random import randrange
 
 class Waiter(BotPlugin):
 
-    def _check_for_bad_arguments(self, args, func=False, n_args=1):
+    def _check_for_bad_arguments(self, args, func=False, n_args=1, accepts_all=False):
         if not func:
             raise SyntaxError("Function is not passed in")
         func_str = func.__name__.replace("_", " ")
@@ -19,6 +19,9 @@ class Waiter(BotPlugin):
             s = ""
 
         _args_num = len(args.split())
+        if _args_num == 0 and accepts_all:
+            return 0
+
         if _args_num != n_args:
             raise SyntaxError(_error_msg.format(
                 func=func_str,
@@ -28,7 +31,7 @@ class Waiter(BotPlugin):
                 docstring=func.__doc__)
             )
 
-    def _get_rest_from_input(self, input):
+    def _get_rest_from_input(self, input, accepts_all=False):
         input = input.strip(" :")
         _not_in_list = True
         for rest in self._get_orders().keys():
@@ -38,6 +41,8 @@ class Waiter(BotPlugin):
                 return "all"
 
         if _not_in_list:
+            if accepts_all:
+                return "all"
             return "/me says:\n" \
                    "Don't know this restaurant. " \
                    "Check spelling or add it with\n" \
@@ -110,15 +115,15 @@ class Waiter(BotPlugin):
 
     @botcmd()
     def order_list(self, msg, args):
-        """Shows list of orders. Format: !order list <rest_name | all>"""
+        """Shows list of orders. Format: !order list [rest_name=all]"""
         d = self._get_orders()
         try:
-            self._check_for_bad_arguments(args, func=self.order_list, n_args=1)
+            self._check_for_bad_arguments(args, func=self.order_list, n_args=1, accepts_all=True)
         except SyntaxError as e:
             return str(e)
 
 
-        _restaurant = self._get_rest_from_input(args)
+        _restaurant = self._get_rest_from_input(args, accepts_all=True)
         if _restaurant[0] == "/":
             return _restaurant
 

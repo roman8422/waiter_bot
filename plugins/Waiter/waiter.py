@@ -175,7 +175,7 @@ class Waiter(BotPlugin):
 
         if not _rest_in_d:
             d[args] = {}
-            self['orders'] = d
+            self._set_orders(d)
             return '/me says:\nrestaurant {} has been added'.format(args)
 
     @botcmd()

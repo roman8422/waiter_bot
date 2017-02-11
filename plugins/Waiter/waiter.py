@@ -207,7 +207,7 @@ class Waiter(BotPlugin):
     @botcmd()
     def select_contact(self, msg, args):
         """Selects a person from order owners. Format: !select contact <rest_name | all>"""
-        d = self['orders']
+        d = self._get_orders()
         fname = sys._getframe().f_code.co_name.replace('_', ' ')
         _error_msg = "/me says:\n!{func} accepts one argument, {nargs} given\n!{func} <rest_name>"
 

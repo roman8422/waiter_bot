@@ -228,17 +228,17 @@ class Waiter(BotPlugin):
             _restaurants = []
             _restaurants.append(_restaurant)
 
-        _return_message = ''
+        _return_message = "/me says"
         for _restaurant in _restaurants:
             l = list(d[_restaurant].keys())
             if len(l) > 0:
                 _contact = l[randrange(len(l))]
 
-                yield "/me is selecting today's contact person for {rest}...".format(rest=_restaurant)
-                sleep(2)
-                yield '/me says: and the winner is ' + _contact + '. Congratz!'
+                _return_message += ("\nToday's contact for {rest} is " + _contact).format(rest=_restaurant)
             else:
-                yield '/me says: noone made order in {rest} yet'.format(rest=_restaurant)
+                _return_message += '\nNo one has made an order in {rest} yet'.format(rest=_restaurant)
+
+        return _return_message
 
 
     @botcmd

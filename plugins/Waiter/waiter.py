@@ -7,7 +7,12 @@ from time import sleep
 class Waiter(BotPlugin):
 
     def _rest_empty_error(self):
-        return "/me says:\nYou should add some restaurants first. Use following command:\n!rest add <rest_name>\nCheck restaurants list with:\n!rest list"
+        return "/me says:\n" \
+               "You should add some restaurants first. " \
+               "Use following command:\n" \
+               "!rest add <rest_name>\n" \
+               "Check restaurants list with:\n" \
+               "!rest list"
 
     def _get_rest_from_input(self, input):
         input = input.strip(" :")

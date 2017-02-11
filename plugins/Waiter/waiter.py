@@ -149,14 +149,10 @@ class Waiter(BotPlugin):
     def orders_remove(self, msg, args):
         """Clears list of orders. Format: !orders remove <restname | all>"""
         d = self._get_orders()
-        _error_msg = "/me says:\n!orders remove accepts one argument, {} given\n!orders remove <rest_name | all>"
-
-        if not args:
-            return _error_msg.format(0)
-
-        _args_num = len(args.split())
-        if _args_num != 1:
-            return _error_msg.format(_args_num)
+        try:
+            self._check_for_bad_arguments(args, func=self.orders_remove, n_args=1)
+        except SyntaxError as e:
+            return str(e)
 
         _restaurant = self._get_rest_from_input(args)
         if _restaurant[0] == "/":

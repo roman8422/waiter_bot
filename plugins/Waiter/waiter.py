@@ -5,6 +5,20 @@ from random import randrange
 
 class Waiter(BotPlugin):
 
+    def _check_for_bad_arguments(self, args, func_name=False, accepts=1):
+        s = 's'
+        if accepts == 1:
+            s = ''
+        _error_msg = "/me says:\n!{func_name} accepts {accepts} argument{s}, {args_given} given\n" \
+                    "See !help for details"
+
+        if not args:
+            raise SyntaxError(_error_msg.format(func_name=func_name, accepts=accepts, s=s, args_given=0))
+
+        _args_num = len(args.split())
+        if _args_num != accepts:
+            raise SyntaxError(_error_msg.format(func_name=func_name, accepts=accepts, s=s, args_given=_args_num))
+
     def _rest_empty_error(self):
         return "/me says:\n" \
                "You should add some restaurants first. " \

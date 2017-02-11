@@ -27,6 +27,22 @@ class Waiter(BotPlugin):
         if _not_in_list:
             return "/me says:\nDon't know this restaurant. Check spelling or add it with\n!rest add <rest_name>\nCheck restaurants list with:\n!rest list"
 
+    def _get_orders(self):
+        restaurants = [
+            'Токио',
+            'Васаби',
+        ]
+
+        try:
+            d = self['orders']
+        except KeyError:
+            d = {}
+            for restaurant in restaurants:
+                d[restaurant] = {}
+
+        self['orders'] = d
+        return(d)
+
 
     @botcmd()
     def order_add(self, msg, args):

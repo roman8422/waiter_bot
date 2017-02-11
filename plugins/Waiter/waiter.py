@@ -38,7 +38,12 @@ class Waiter(BotPlugin):
                 return "all"
 
         if _not_in_list:
-            return "/me says:\nDon't know this restaurant. Check spelling or add it with\n!rest add <rest_name>\nCheck restaurants list with:\n!rest list"
+            return "/me says:\n" \
+                   "Don't know this restaurant. " \
+                   "Check spelling or add it with\n" \
+                   "!rest add <rest_name>\n" \
+                   "Check restaurants list with:\n" \
+                   "!rest list"
 
     def _get_orders(self):
         restaurants = [

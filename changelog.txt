@@ -1,6 +1,15 @@
-[v0.3] - dev
+[v0.3]
 - fix exception if credentials file for production is not presented
+- change funcitons arguments checking and error messages
+- numerous bugfixes and improvements
 
 [v0.2]
 - add order_list method that works exactly like orders_list to decrease confusing
 - put !order list output in /code tag to improve readability
+
+[feature requests]
+- send order to restaurant automatically
+- add posibility to add order for another person
+- remove orders automatically at midnight
+- select contats automatically at noon
+- weighted contact selection algorithm

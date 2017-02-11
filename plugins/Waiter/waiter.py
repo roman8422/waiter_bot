@@ -70,6 +70,7 @@ class Waiter(BotPlugin):
         _order_content = _order_content.replace(_restaurant_input, '').strip()
 
         d[_restaurant][msg.frm.nick] = _order_content
+        self._set_orders(d)
 
         _return_message = ""
         _return_message += "/me accepted following order:\n"

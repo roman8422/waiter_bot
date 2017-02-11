@@ -198,8 +198,7 @@ class Waiter(BotPlugin):
     def rest_list(self, msg, args):
         """Shows available restaurant. Format: !rest list"""
 
-        if 'orders' not in self.keys():
-            return(self._rest_empty_error())
+        self._get_orders()
 
         _restaurants = self._make_rest_list()
         _keys = ""

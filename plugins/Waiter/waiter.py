@@ -1,6 +1,6 @@
 from errbot import BotPlugin, botcmd
-import sys
 from random import randrange
+import requests
 
 
 class Waiter(BotPlugin):

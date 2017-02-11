@@ -103,9 +103,9 @@ class Waiter(BotPlugin):
     def orders_list(self, msg, args):
         """Shows list of orders. Format: !orders list <rest_name | all>"""
         d = self._get_orders()
-        this_function_name = sys._getframe().f_code.co_name.replace('_', ' ')
+        fname = sys._getframe().f_code.co_name.replace('_', ' ')
         try:
-            self._check_for_bad_arguments(args, func_name=this_function_name, accepts=1)
+            self._check_for_bad_arguments(args, func_name=fname, accepts=1)
         except SyntaxError as e:
             return str(e)
 

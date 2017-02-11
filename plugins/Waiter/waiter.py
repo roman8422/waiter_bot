@@ -181,7 +181,7 @@ class Waiter(BotPlugin):
     @botcmd()
     def rest_remove(self, msg, args):
         """Removes restaurant from list. Format: !rest remove <rest_name>"""
-        d = self['orders']
+        d = self._get_orders()
         try:
             d.pop(args)
             self['orders'] = d

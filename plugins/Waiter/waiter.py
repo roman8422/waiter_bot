@@ -290,9 +290,43 @@ class Waiter(BotPlugin):
         except Exception as e:
             return e
         try:
-            return self._generate_order_list(args, for_rest=True)
+            _order_list =  self._generate_order_list(args, for_rest=True)
         except SyntaxError as e:
             return e
+
+        tokyourl = 'http://www.tokyo-city.ru/order.php'
+        data = {
+            'user_f_2': phone_num,
+            'user_f_5': 'Кропоткина',
+            'user_f_6': '1',
+            'user_f_10': '502',
+            'user_f_18': _order_list,
+        }
+        r = requests.post(tokyourl, data = {'key':'value'})
+        try:
+            r.raise_for_status()
+        except Exception as e:
+            return e
+        return "Looks like order accepted"
+
+        print()
+        print('content')
+        print(r.content)
+        print()
+        print('r')
+        print(r)
+        print()
+        print('r.headers')
+        print(r.headers)
+        print()
+        print('r.url')
+        print(r.url)
+        print()
+        print('r.status_code')
+        print(r.status_code)
+        print()
+        print('r.text')
+        print(r.text)
 
     @staticmethod
     def find_phone_num(caller):

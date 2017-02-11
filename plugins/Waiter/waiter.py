@@ -103,14 +103,12 @@ class Waiter(BotPlugin):
     def orders_list(self, msg, args):
         """Shows list of orders. Format: !orders list <rest_name | all>"""
         d = self._get_orders()
-        _error_msg = "/me says:\n!orders list accepts one argument, {} given\n!orders list <rest_name | all>"
+        this_function_name = sys._getframe().f_code.co_name.replace('_', ' ')
+        try:
+            self._check_for_bad_arguments(args, func_name=this_function_name, accepts=1)
+        except SyntaxError as e:
+            return str(e)
 
-        if not args:
-            return _error_msg.format(0)
-
-        _args_num = len(args.split())
-        if _args_num != 1:
-            return _error_msg.format(_args_num)
 
         _restaurant = self._get_rest_from_input(args)
         if _restaurant[0] == "/":

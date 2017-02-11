@@ -184,7 +184,7 @@ class Waiter(BotPlugin):
         d = self._get_orders()
         try:
             d.pop(args)
-            self['orders'] = d
+            self._set_orders(d)
             return "/me says:\nrestaurant {} has been removed from list".format(args)
         except KeyError:
             return "/me says:\n restaurant {} is not in the list".format(args)

@@ -48,10 +48,7 @@ class Waiter(BotPlugin):
     def order_add(self, msg, args):
         """Adds new order. Format: !order add restorant[:] 'place order text here'"""
 
-        if 'orders' in self.keys():
-            d = self['orders']
-        else:
-            return(self._rest_empty_error())
+        d = self._get_orders()
 
         _input = args.splitlines()
         _restaurant_input = _input[0].split(' ')[0]
@@ -70,7 +67,6 @@ class Waiter(BotPlugin):
         _order_content = _order_content.replace(_restaurant_input, '').strip()
 
         d[_restaurant][msg.frm.nick] = _order_content
-        self['orders'] = d
 
         _return_message = ""
         _return_message += "/me accepted following order:\n"

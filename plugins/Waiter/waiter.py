@@ -112,7 +112,7 @@ class Waiter(BotPlugin):
         """Shows list of orders. Format: !orders list <rest_name | all>"""
         d = self._get_orders()
         try:
-            self._check_for_bad_arguments(args, self.orders_list, n_args=1)
+            self._check_for_bad_arguments(args, func=self.orders_list, n_args=1)
         except SyntaxError as e:
             return str(e)
 
@@ -224,7 +224,7 @@ class Waiter(BotPlugin):
         d = self._get_orders()
 
         try:
-            self._check_for_bad_arguments(args, self.select_contact, n_args=1)
+            self._check_for_bad_arguments(args, func=self.select_contact, n_args=1)
         except SyntaxError as e:
             return str(e)
 

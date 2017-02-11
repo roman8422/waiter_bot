@@ -183,15 +183,13 @@ class Waiter(BotPlugin):
         except SyntaxError as e:
             return str(e)
 
-        _rest_in_d = False
         for rest in d.keys():
             if args.lower() == rest.lower():
                 return "/me says:\nRestaurant {} is in the list already".format(args)
 
-        if not _rest_in_d:
-            d[args] = {}
-            self._set_orders(d)
-            return "/me says:\nrestaurant {} has been added".format(args)
+        d[args] = {}
+        self._set_orders(d)
+        return "/me says:\nrestaurant {} has been added".format(args)
 
     @botcmd()
     def rest_remove(self, msg, args):

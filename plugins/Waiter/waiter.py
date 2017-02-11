@@ -124,7 +124,7 @@ class Waiter(BotPlugin):
     @botcmd()
     def orders_remove(self, msg, args):
         """Clears list of orders. Format: !orders remove <restname | all>"""
-        d = self['orders']
+        d = self._get_orders()
         _error_msg = "/me says:\n!orders remove accepts one argument, {} given\n!orders remove <rest_name | all>"
 
         if not args:

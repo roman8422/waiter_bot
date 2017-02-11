@@ -171,7 +171,7 @@ class Waiter(BotPlugin):
         _rest_in_d = False
         for rest in d.keys():
             if args.lower() == rest.lower():
-                return '/me says:\nrestaurant {} is in list already'.format(args)
+                return '/me says:\nRestaurant {} is in the list already'.format(args)
 
         if not _rest_in_d:
             d[args] = {}

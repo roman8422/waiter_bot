@@ -104,15 +104,16 @@ class Waiter(BotPlugin):
         return _return_message
 
     @botcmd()
-    def order_list(self, msg, args):
-        return self.orders_list(msg, args)
+    def orders_list(self, msg, args):
+        """Alias for !order list"""
+        return self.order_list(msg, args)
 
     @botcmd()
-    def orders_list(self, msg, args):
-        """Shows list of orders. Format: !orders list <rest_name | all>"""
+    def order_list(self, msg, args):
+        """Shows list of orders. Format: !order list <rest_name | all>"""
         d = self._get_orders()
         try:
-            self._check_for_bad_arguments(args, func=self.orders_list, n_args=1)
+            self._check_for_bad_arguments(args, func=self.order_list, n_args=1)
         except SyntaxError as e:
             return str(e)
 

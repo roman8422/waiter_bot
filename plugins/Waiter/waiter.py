@@ -1,7 +1,6 @@
 from errbot import BotPlugin, botcmd
 import sys
 from random import randrange
-from time import sleep
 
 
 class Waiter(BotPlugin):

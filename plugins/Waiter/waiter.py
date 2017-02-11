@@ -10,31 +10,31 @@ class Waiter(BotPlugin):
         return "/me says:\nYou should add some restaurants first. Use following command:\n!rest add <rest_name>\nCheck restaurants list with:\n!rest list"
 
     def _make_rest_list(self):
-        d = self['orders']
+        d = self["orders"]
         _restaurants = list(d.keys())
         _restaurants.sort()
         return _restaurants
 
     def _get_rest_from_input(self, input):
-        input = input.strip(' :')
+        input = input.strip(" :")
         _not_in_list = True
         for rest in self._get_orders().keys():
             if input.lower() == rest.lower():
                 return(rest)
-            if input.lower() == 'all':
-                return 'all'
+            if input.lower() == "all":
+                return "all"
 
         if _not_in_list:
             return "/me says:\nDon't know this restaurant. Check spelling or add it with\n!rest add <rest_name>\nCheck restaurants list with:\n!rest list"
 
     def _get_orders(self):
         restaurants = [
-            'Токио',
-            'Васаби',
+            "Токио",
+            "Васаби",
         ]
 
         try:
-            d = self['orders']
+            d = self["orders"]
         except KeyError:
             d = {}
             for restaurant in restaurants:
@@ -44,7 +44,7 @@ class Waiter(BotPlugin):
         return(d)
 
     def _set_orders(self, d):
-        self['orders'] = d
+        self["orders"] = d
 
 
     @botcmd()
@@ -54,10 +54,10 @@ class Waiter(BotPlugin):
         d = self._get_orders()
 
         _input = args.splitlines()
-        _restaurant_input = _input[0].split(' ')[0]
+        _restaurant_input = _input[0].split(" ")[0]
         _restaurant = self._get_rest_from_input(_restaurant_input)
 
-        if _restaurant[0] == '/':
+        if _restaurant[0] == "/":
             return _restaurant
 
         # remove spaces in lines
@@ -65,9 +65,9 @@ class Waiter(BotPlugin):
         for line in _input:
             _stripped_input.append(line.strip())
 
-        _order_content = '\n'.join(_stripped_input)
+        _order_content = "\n".join(_stripped_input)
         # remove restaurant from input
-        _order_content = _order_content.replace(_restaurant_input, '').strip()
+        _order_content = _order_content.replace(_restaurant_input, "").strip()
 
         d[_restaurant][msg.frm.nick] = _order_content
         self._set_orders(d)
@@ -98,10 +98,10 @@ class Waiter(BotPlugin):
             return _error_msg.format(_args_num)
 
         _restaurant = self._get_rest_from_input(args)
-        if _restaurant[0] == '/':
+        if _restaurant[0] == "/":
             return _restaurant
 
-        if _restaurant == 'all':
+        if _restaurant == "all":
             _restaurants = list(d.keys())
         else:
             _restaurants = []
@@ -115,12 +115,12 @@ class Waiter(BotPlugin):
             _num = 0
             for key, val in d[_restaurant].items():
                 _num += 1
-                _return_message += 'Гость ' + str(_num) + ' (' + key + ')\n'
-                if '\n' in val:
+                _return_message += "Гость " + str(_num) + " (" + key + ")\n"
+                if "\n" in val:
                     for line in val.splitlines():
-                        _return_message += _ident + line.strip() + '\n'
+                        _return_message += _ident + line.strip() + "\n"
                 else:
-                    _return_message += _ident + val + '\n'
+                    _return_message += _ident + val + "\n"
 
         return _return_message
 
@@ -139,16 +139,16 @@ class Waiter(BotPlugin):
             return _error_msg.format(_args_num)
 
         _restaurant = self._get_rest_from_input(args)
-        if _restaurant[0] == '/':
+        if _restaurant[0] == "/":
             return _restaurant
 
-        if _restaurant == 'all':
+        if _restaurant == "all":
             _restaurants = list(d.keys())
         else:
             _restaurants = []
             _restaurants.append(_restaurant)
 
-        _return_message = ''
+        _return_message = ""
         for _restaurant in _restaurants:
             _return_message += "/me says:\n"
             d[_restaurant] = {}
@@ -171,12 +171,12 @@ class Waiter(BotPlugin):
         _rest_in_d = False
         for rest in d.keys():
             if args.lower() == rest.lower():
-                return '/me says:\nRestaurant {} is in the list already'.format(args)
+                return "/me says:\nRestaurant {} is in the list already".format(args)
 
         if not _rest_in_d:
             d[args] = {}
             self._set_orders(d)
-            return '/me says:\nrestaurant {} has been added'.format(args)
+            return "/me says:\nrestaurant {} has been added".format(args)
 
     @botcmd()
     def rest_remove(self, msg, args):
@@ -198,7 +198,7 @@ class Waiter(BotPlugin):
         _rests.sort()
         _rests_str = "\n".join(_rests)
 
-        _return_message = '/me says:\nRestaurants list:\n{}'.format(_rests_str)
+        _return_message = "/me says:\nRestaurants list:\n{}".format(_rests_str)
 
         return _return_message
 
@@ -206,7 +206,7 @@ class Waiter(BotPlugin):
     def select_contact(self, msg, args):
         """Selects a person from order owners. Format: !select contact <rest_name | all>"""
         d = self._get_orders()
-        fname = sys._getframe().f_code.co_name.replace('_', ' ')
+        fname = sys._getframe().f_code.co_name.replace("_", " ")
         _error_msg = "/me says:\n!{func} accepts one argument, {nargs} given\n!{func} <rest_name>"
 
         if not args:
@@ -217,10 +217,10 @@ class Waiter(BotPlugin):
             return _error_msg.format(func=fname, nargs=_args_num)
 
         _restaurant = self._get_rest_from_input(args)
-        if _restaurant[0] == '/':
+        if _restaurant[0] == "/":
             return _restaurant
 
-        if _restaurant == 'all':
+        if _restaurant == "all":
             _restaurants = list(d.keys())
         else:
             _restaurants = []
@@ -234,7 +234,7 @@ class Waiter(BotPlugin):
 
                 _return_message += ("\nToday's contact for {rest} is " + _contact).format(rest=_restaurant)
             else:
-                _return_message += '\nNo one has made an order in {rest} yet'.format(rest=_restaurant)
+                _return_message += "\nNo one has made an order in {rest} yet".format(rest=_restaurant)
 
         return _return_message
 
@@ -257,6 +257,6 @@ class Waiter(BotPlugin):
                    "Ex: contacts=[{'displayName': 'Roman Vrublevskiy', 'mobilePhone': '123456789'}]"
 
         for contact in contacts.contacts:
-            if contact['displayName'] == caller:
-                return contact['mobilePhone']
+            if contact["displayName"] == caller:
+                return contact["mobilePhone"]
         raise LookupError("Phone number of {} wasn't found in contacts".format(caller))

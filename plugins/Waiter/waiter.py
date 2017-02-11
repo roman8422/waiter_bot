@@ -83,7 +83,7 @@ class Waiter(BotPlugin):
     @botcmd()
     def orders_list(self, msg, args):
         """Shows list of orders. Format: !orders list <rest_name | all>"""
-        d = self['orders']
+        d = self._get_orders()
         _error_msg = "/me says:\n!orders list accepts one argument, {} given\n!orders list <rest_name | all>"
 
         if not args:

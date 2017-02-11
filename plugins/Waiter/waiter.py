@@ -71,11 +71,14 @@ class Waiter(BotPlugin):
         d[_restaurant][msg.frm.nick] = _order_content
         self._set_orders(d)
 
-        _return_message = ""
-        _return_message += "/me accepted following order:\n"
-        _return_message += "From: {}\n".format(msg.frm.nick)
-        _return_message += "Restaurant: {}\n".format(_restaurant)
-        _return_message += "Order content: {}\n".format(_order_content)
+        _return_message = "/me accepted following order:\n" \
+                        "From: {nick}\n" \
+                        "Restaurant: {rest}\n" \
+                        "Order content: {content}\n".format(
+                            nick=msg.frm.nick,
+                            rest=_restaurant,
+                            content=_order_content,
+                        )
 
         return _return_message
 

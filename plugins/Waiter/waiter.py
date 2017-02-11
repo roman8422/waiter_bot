@@ -5,13 +5,28 @@ from random import randrange
 
 class Waiter(BotPlugin):
 
-    def _rest_empty_error(self):
-        return "/me says:\n" \
-               "You should add some restaurants first. " \
-               "Use following command:\n" \
-               "!rest add <rest_name>\n" \
-               "Check restaurants list with:\n" \
-               "!rest list"
+    def _check_for_bad_arguments(self, args, func=False, n_args=1):
+        if not func:
+            raise SyntaxError("Function is not passed in")
+        func_str = func.__name__.replace("_", " ")
+
+        _error_msg = "/me says:\n" \
+                     "!{func} accepts {n_args} argument{s}, {args_given} given\n" \
+                     "{docstring}"
+
+        s = "s"
+        if n_args == 1:
+            s = ""
+
+        _args_num = len(args.split())
+        if _args_num != n_args:
+            raise SyntaxError(_error_msg.format(
+                func=func_str,
+                n_args=n_args,
+                s=s,
+                args_given=_args_num,
+                docstring=func.__doc__)
+            )
 
     def _get_rest_from_input(self, input):
         input = input.strip(" :")
@@ -23,7 +38,12 @@ class Waiter(BotPlugin):
                 return "all"
 
         if _not_in_list:
-            return "/me says:\nDon't know this restaurant. Check spelling or add it with\n!rest add <rest_name>\nCheck restaurants list with:\n!rest list"
+            return "/me says:\n" \
+                   "Don't know this restaurant. " \
+                   "Check spelling or add it with\n" \
+                   "!rest add <rest_name>\n" \
+                   "Check restaurants list with:\n" \
+                   "!rest list"
 
     def _get_orders(self):
         restaurants = [
@@ -35,7 +55,9 @@ class Waiter(BotPlugin):
             d = self["orders"]
         except KeyError:
             d = {}
-            for restaurant in restaurants:
+
+        for restaurant in restaurants:
+            if restaurant not in d.keys():
                 d[restaurant] = {}
 
         self._set_orders(d)
@@ -89,14 +111,11 @@ class Waiter(BotPlugin):
     def orders_list(self, msg, args):
         """Shows list of orders. Format: !orders list <rest_name | all>"""
         d = self._get_orders()
-        _error_msg = "/me says:\n!orders list accepts one argument, {} given\n!orders list <rest_name | all>"
+        try:
+            self._check_for_bad_arguments(args, func=self.orders_list, n_args=1)
+        except SyntaxError as e:
+            return str(e)
 
-        if not args:
-            return _error_msg.format(0)
-
-        _args_num = len(args.split())
-        if _args_num != 1:
-            return _error_msg.format(_args_num)
 
         _restaurant = self._get_rest_from_input(args)
         if _restaurant[0] == "/":
@@ -130,14 +149,10 @@ class Waiter(BotPlugin):
     def orders_remove(self, msg, args):
         """Clears list of orders. Format: !orders remove <restname | all>"""
         d = self._get_orders()
-        _error_msg = "/me says:\n!orders remove accepts one argument, {} given\n!orders remove <rest_name | all>"
-
-        if not args:
-            return _error_msg.format(0)
-
-        _args_num = len(args.split())
-        if _args_num != 1:
-            return _error_msg.format(_args_num)
+        try:
+            self._check_for_bad_arguments(args, func=self.orders_remove, n_args=1)
+        except SyntaxError as e:
+            return str(e)
 
         _restaurant = self._get_rest_from_input(args)
         if _restaurant[0] == "/":
@@ -149,11 +164,10 @@ class Waiter(BotPlugin):
             _restaurants = []
             _restaurants.append(_restaurant)
 
-        _return_message = ""
+        _return_message = "/me says:\n"
         for _restaurant in _restaurants:
-            _return_message += "/me says:\n"
             d[_restaurant] = {}
-            _return_message += "orders for {} has been removed".format(_restaurant)
+            _return_message += "orders for {} has been removed\n".format(_restaurant)
 
         self._set_orders(d)
 
@@ -164,20 +178,18 @@ class Waiter(BotPlugin):
         """Adds new restaurant. Format: !rest add <rest_name>"""
 
         d = self._get_orders()
+        try:
+            self._check_for_bad_arguments(args, func=self.rest_add, n_args=1)
+        except SyntaxError as e:
+            return str(e)
 
-        _args_num = len(args.split())
-        if _args_num > 1:
-            return "!rest add accepts only one argument, {} given\n !rest add <rest_name>".format(_args_num)
-
-        _rest_in_d = False
         for rest in d.keys():
             if args.lower() == rest.lower():
                 return "/me says:\nRestaurant {} is in the list already".format(args)
 
-        if not _rest_in_d:
-            d[args] = {}
-            self._set_orders(d)
-            return "/me says:\nrestaurant {} has been added".format(args)
+        d[args] = {}
+        self._set_orders(d)
+        return "/me says:\nrestaurant {} has been added".format(args)
 
     @botcmd()
     def rest_remove(self, msg, args):
@@ -207,15 +219,11 @@ class Waiter(BotPlugin):
     def select_contact(self, msg, args):
         """Selects a person from order owners. Format: !select contact <rest_name | all>"""
         d = self._get_orders()
-        fname = sys._getframe().f_code.co_name.replace("_", " ")
-        _error_msg = "/me says:\n!{func} accepts one argument, {nargs} given\n!{func} <rest_name>"
 
-        if not args:
-            return _error_msg.format(func=fname, nargs=0)
-
-        _args_num = len(args.split())
-        if _args_num != 1:
-            return _error_msg.format(func=fname, nargs=_args_num)
+        try:
+            self._check_for_bad_arguments(args, func=self.select_contact, n_args=1)
+        except SyntaxError as e:
+            return str(e)
 
         _restaurant = self._get_rest_from_input(args)
         if _restaurant[0] == "/":

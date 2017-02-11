@@ -40,7 +40,7 @@ class Waiter(BotPlugin):
             for restaurant in restaurants:
                 d[restaurant] = {}
 
-        self['orders'] = d
+        self._set_orders(d)
         return(d)
 
     def _set_orders(self, d):

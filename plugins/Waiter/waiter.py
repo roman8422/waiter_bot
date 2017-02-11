@@ -147,10 +147,15 @@ class Waiter(BotPlugin):
 
     @botcmd()
     def orders_remove(self, msg, args):
-        """Clears list of orders. Format: !orders remove <restname | all>"""
+        """Alias for !order remove"""
+        return self.order_remove(msg, args)
+
+    @botcmd()
+    def order_remove(self, msg, args):
+        """Clears list of orders. Format: !order remove <restname | all>"""
         d = self._get_orders()
         try:
-            self._check_for_bad_arguments(args, func=self.orders_remove, n_args=1)
+            self._check_for_bad_arguments(args, func=self.order_remove, n_args=1)
         except SyntaxError as e:
             return str(e)
 

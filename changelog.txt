@@ -1,6 +1,7 @@
 [v0.3]
 - fix exception if credentials file for production is not presented
 - change funcitons arguments checking and error messages
+- add singular command for order_remove and set orders_remove as it's alias
 - numerous bugfixes and improvements
 
 [v0.2]

@@ -274,11 +274,24 @@ class Waiter(BotPlugin):
 
     @botcmd
     def order_send(self, msg, args):
+        try:
+            self._check_for_bad_arguments(args, func=self.select_contact, n_args=1)
+        except SyntaxError as e:
+            return str(e)
+
+        _restaurant = self._get_rest_from_input(args)
+        if _restaurant[0] == "/":
+            raise SyntaxError(_restaurant)
+        if _restaurant != "Токио":
+            return "Sorry, just Токио for now"
         caller = "Roman Vrublevskiy"
         try:
             phone_num = Waiter.find_phone_num(caller)
-            return phone_num
         except Exception as e:
+            return e
+        try:
+            return self._generate_order_list(args, for_rest=True)
+        except SyntaxError as e:
             return e
 
     @staticmethod

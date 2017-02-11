@@ -15,10 +15,10 @@ class Waiter(BotPlugin):
         _restaurants.sort()
         return _restaurants
 
-    def _find_rest(self, input):
+    def _get_rest_from_input(self, input):
         input = input.strip(' :')
         _not_in_list = True
-        for rest in self._make_rest_list():
+        for rest in self._get_orders().keys():
             if input.lower() == rest.lower():
                 return(rest)
             if input.lower() == 'all':
@@ -55,7 +55,7 @@ class Waiter(BotPlugin):
 
         _input = args.splitlines()
         _restaurant_input = _input[0].split(' ')[0]
-        _restaurant = self._find_rest(_restaurant_input)
+        _restaurant = self._get_rest_from_input(_restaurant_input)
 
         if _restaurant[0] == '/':
             return _restaurant
@@ -97,7 +97,7 @@ class Waiter(BotPlugin):
         if _args_num != 1:
             return _error_msg.format(_args_num)
 
-        _restaurant = self._find_rest(args)
+        _restaurant = self._get_rest_from_input(args)
         if _restaurant[0] == '/':
             return _restaurant
 
@@ -138,7 +138,7 @@ class Waiter(BotPlugin):
         if _args_num != 1:
             return _error_msg.format(_args_num)
 
-        _restaurant = self._find_rest(args)
+        _restaurant = self._get_rest_from_input(args)
         if _restaurant[0] == '/':
             return _restaurant
 
@@ -216,7 +216,7 @@ class Waiter(BotPlugin):
         if _args_num != 1:
             return _error_msg.format(func=fname, nargs=_args_num)
 
-        _restaurant = self._find_rest(args)
+        _restaurant = self._get_rest_from_input(args)
         if _restaurant[0] == '/':
             return _restaurant
 

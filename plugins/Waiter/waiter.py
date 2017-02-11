@@ -55,7 +55,9 @@ class Waiter(BotPlugin):
             d = self["orders"]
         except KeyError:
             d = {}
-            for restaurant in restaurants:
+
+        for restaurant in restaurants:
+            if restaurant not in d.keys():
                 d[restaurant] = {}
 
         self._set_orders(d)

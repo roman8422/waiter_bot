@@ -5,20 +5,28 @@ from random import randrange
 
 class Waiter(BotPlugin):
 
-    def _check_for_bad_arguments(self, args, func_name=False, n_args=1):
+    def _check_for_bad_arguments(self, args, func=False, n_args=1):
+        if not func:
+            raise SyntaxError("Function is not passed in")
+        func_str = func.__name__.replace("_", " ")
+
+        _error_msg = "/me says:\n" \
+                     "!{func} accepts {n_args} argument{s}, {args_given} given\n" \
+                     "{docstring}"
+
         s = "s"
         if n_args == 1:
             s = ""
-        _error_msg = "/me says:\n" \
-                     "!{func_name} n_args {n_args} argument{s}, {args_given} given\n" \
-                    "See !help for details"
-
-        if not args:
-            raise SyntaxError(_error_msg.format(func_name=func_name, accepts=n_args, s=s, args_given=0))
 
         _args_num = len(args.split())
         if _args_num != n_args:
-            raise SyntaxError(_error_msg.format(func_name=func_name, accepts=n_args, s=s, args_given=_args_num))
+            raise SyntaxError(_error_msg.format(
+                func=func_str,
+                n_args=n_args,
+                s=s,
+                args_given=_args_num,
+                docstring=func.__doc__)
+            )
 
     def _rest_empty_error(self):
         return "/me says:\n" \
@@ -104,9 +112,8 @@ class Waiter(BotPlugin):
     def orders_list(self, msg, args):
         """Shows list of orders. Format: !orders list <rest_name | all>"""
         d = self._get_orders()
-        fname = sys._getframe().f_code.co_name.replace('_', ' ')
         try:
-            self._check_for_bad_arguments(args, func_name=fname, n_args=1)
+            self._check_for_bad_arguments(args, self.orders_list, n_args=1)
         except SyntaxError as e:
             return str(e)
 

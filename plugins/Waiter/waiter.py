@@ -193,16 +193,14 @@ class Waiter(BotPlugin):
     def rest_list(self, msg, args):
         """Shows available restaurant. Format: !rest list"""
 
-        self._get_orders()
+        d = self._get_orders()
+        _rests = [k for k in d.keys()]
+        _rests.sort()
+        _rests_str = "\n".join(_rests)
 
-        _restaurants = self._make_rest_list()
-        _keys = ""
-        for key in _restaurants:
-            _keys += key + '\n'
+        _return_message = '/me says:\nRestaurants list:\n{}'.format(_rests_str)
 
-        _retern_message = '/me says:\nRestaurants list:\n{}'.format(_keys)
-
-        return _retern_message
+        return _return_message
 
     @botcmd()
     def select_contact(self, msg, args):

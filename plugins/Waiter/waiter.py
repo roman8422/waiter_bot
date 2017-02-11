@@ -154,7 +154,7 @@ class Waiter(BotPlugin):
             d[_restaurant] = {}
             _return_message += "orders for {} has been removed".format(_restaurant)
 
-        self['orders'] = d
+        self._set_orders(d)
 
         return _return_message
 

@@ -307,7 +307,9 @@ class Waiter(BotPlugin):
             r.raise_for_status()
         except Exception as e:
             return e
-        return "Looks like order accepted"
+        return "/me says\n" \
+               "Looks like order has been accepted\n" \
+               "Order content:\n" + _order_list
 
         print()
         print('content')

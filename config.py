@@ -1,5 +1,4 @@
 import logging
-from pathlib import Path
 
 try:
     from prod_creds import BOT_IDENTITY
@@ -50,6 +49,12 @@ CHATROOM_FN = 'spb lunchbot'
 
 BOT_ALT_PREFIXES = ('Err', '@spblunchbot',)
 
-# Overwrite settings in dev environment
-if Path('dev_env_settings.py').is_file():
+# config overrides for dev env
+try:
     from dev_env_settings import *
+    print("dev_env_settings successfully loaded")
+    # print(BOT_IDENTITY)
+    # input("Press Enter to continue...")
+except ImportError as e:
+    print("dev_env_settings wasn't found. No overrides applied.")
+    # input("Press Enter to continue...")
